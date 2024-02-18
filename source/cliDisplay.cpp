@@ -5,9 +5,9 @@
 
 void
 DisplayADoodle (Name            doodle, 
-                const Doodles*  doodles)
+                const Doodles&  doodles)
 {
-    Doodle data = doodles->at (doodle);
+    Doodle data = doodles.at (doodle);
     if (data.abstract) {
         std::cout << "[" << data.name << "]";
     } else {
@@ -85,11 +85,11 @@ UiLayermask::Display (CliSession& session)
     for (auto& item : layerColours) {
         if (item.first == session.currentLayer) {
             std::cout << "**" << Colours::List[item.second];
-            DisplayADoodle (item.first, &session.doodles);
+            DisplayADoodle (item.first, session.doodles);
             std::cout << Colours::NO_FORMAT << "** "; 
         } else {
             std::cout << Colours::List[item.second];
-            DisplayADoodle (item.first, &session.doodles);
+            DisplayADoodle (item.first, session.doodles);
             std::cout << Colours::NO_FORMAT << " ";
         }
     }
@@ -114,7 +114,7 @@ CliDisplay::CliDisplay (CliSession& session)
                     session.doodles,
                     onDisplay,
                     session.layermask,
-                    &initialLayer);
+                    initialLayer);
     Clear ();
     Display (onDisplay);
     currentView = View::FLAT;
@@ -180,7 +180,7 @@ CliDisplay::DisplayFlatView (const CliSession* session) const
 {
     for (auto doodle : displayed) {
         std::cout << "   ";
-        DisplayADoodle (doodle.first, &session->doodles);
+        DisplayADoodle (doodle.first, session->doodles);
         if (IsSelected (session, doodle.first))
             std::cout << " * ";
         std::cout << "\n";
@@ -206,8 +206,6 @@ CliDisplay::UpdateDisplayData (CliSession& session)
     for (Name selected : session.selection) {
         displayed. at (selected).selected = true;
     }
-    // update UiLayermask
-    layermask.Update (session.layermask);
 }
 
 void
@@ -249,6 +247,10 @@ CliDisplay::GeometerDisplay (CliSession& session)
     // layermask
     ColourPrint ("layermask: ");
     session.CleanLayerMask ();
+    layermask.Update (session.layermask);
+    // ensure we always have a current layer
+    if (session.layermask.count (session.currentLayer) == 0)
+        session.currentLayer = * session.layermask.begin ();
     layermask.Display (session);
     if (session.connectome.LayerList ().size () > session.layermask.size ()) {
         std::cout << "...";
@@ -389,7 +391,7 @@ CliDisplay::DisplaySimpleTree (const CliSession* session)
             std::cout << Colours::List[colour] << " ○ " << Colours::NO_FORMAT;
         }
         
-        DisplayADoodle (d.first, &session->doodles);
+        DisplayADoodle (d.first, session->doodles);
         if (IsSelected (session, d.first)) {
             std::cout << " * ";
         }

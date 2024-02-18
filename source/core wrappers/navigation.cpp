@@ -9,7 +9,7 @@ Dive   (CliSession& session,
 {
     int result;
     Names doodlesToDive = display.Displayed ();
-    result = Noodle::Dive  (&session.connectome,
+    result = Noodle::Dive  (session.connectome,
                             doodlesToDive,
                             session.layermask);
     display.Clear ();
@@ -80,7 +80,7 @@ Explore    (CliSession& session,
     // userInputStream specifies doodles
     Names toExplore = session.GetDoodlesFromStream ();
     if (toExplore.size () > 0) {
-        result = Noodle::Explore   (&session.connectome,
+        result = Noodle::Explore   (session.connectome,
                                     toExplore,
                                     session.layermask);
         display.Display (toExplore);
@@ -89,7 +89,7 @@ Explore    (CliSession& session,
 
     // selection specifies doodles
     if (session.selection.size () > 0) {
-        result = Noodle::Explore   (&session.connectome,
+        result = Noodle::Explore   (session.connectome,
                                     session.selection,
                                     session.layermask);
         // The selection is always displayed anyway.
@@ -98,7 +98,7 @@ Explore    (CliSession& session,
 
     // Explore all displayed doodles by default.
     toExplore = display.Displayed ();
-    result = Noodle::Explore   (&session.connectome,
+    result = Noodle::Explore   (session.connectome,
                                 toExplore,
                                 session.layermask);
     display.Display (toExplore);
@@ -111,7 +111,7 @@ Jump   (CliSession& session,
 {
     int result;
     Names toJump = display.Displayed ();
-    result = Noodle::Jump (&session.connectome, toJump, session.layermask);
+    result = Noodle::Jump (session.connectome, toJump, session.layermask);
     display.Clear ();
     display.Display (toJump);
     return result;
@@ -148,23 +148,23 @@ Grow   (CliSession& session,
     // userInputStream specifies doodles
     Names toGrow = session.GetDoodlesFromStream ();
     if (toGrow.size () > 0) {
-        result = Noodle::Grow  (&session.connectome,
+        result = Noodle::Grow  (session.connectome,
                                 toGrow,
-                                &session.layermask);
+                                session.layermask);
     }
 
     // selection specifies doodles
     else if (session.selection.size () > 0) {
-        result = Noodle::Grow  (&session.connectome,
+        result = Noodle::Grow  (session.connectome,
                                 session.selection,
-                                &session.layermask);
+                                session.layermask);
     }
 
     else {
         toGrow = display.Displayed ();
-        result = Noodle::Grow  (&session.connectome,
+        result = Noodle::Grow  (session.connectome,
                                 toGrow,
-                                &session.layermask);
+                                session.layermask);
 
     }
 
@@ -192,9 +192,9 @@ Shrink (CliSession& session,
 {
     int result;
     Names toShrink = display.Displayed ();
-    result = Noodle::Shrink    (&session.connectome,
+    result = Noodle::Shrink    (session.connectome,
                                 toShrink,
-                                &session.layermask);
+                                session.layermask);
     return result;
 }
 
@@ -211,7 +211,7 @@ Switch (CliSession& session,
                                 session.doodles,
                                 displayed,
                                 session.layermask,
-                                &toSwitchTo);
+                                toSwitchTo);
     session.currentLayer = *toSwitchTo.begin ();
     display.Clear ();
     display.Display (displayed);
@@ -228,7 +228,7 @@ Subsplore  (CliSession& session,
     session.selection;
     if (toSubsplore.size () == 0)
         toSubsplore = display.Displayed ();
-    Noodle::Subsplore  (&session.connectome,
+    Noodle::Subsplore  (session.connectome,
                         toSubsplore,
                         session.layermask);
     display.Display (toSubsplore);

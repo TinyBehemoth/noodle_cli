@@ -105,6 +105,6 @@ int Import (int argc, char** argv)
                             session.doodles,
                             importer.type,
                             importer.sourcePath,
-                            &importer.layersToImport,
+                            importer.layersToImport,
                             importer.name);
 }

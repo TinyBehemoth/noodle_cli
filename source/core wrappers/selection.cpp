@@ -23,9 +23,9 @@ SelectionGrow  (CliSession& session,
 {
     Names displayed = display.Displayed ();
 
-    Noodle::Grow   (&session.connectome,
+    Noodle::Grow   (session.connectome,
                     session.selection,
-                    &session.layermask);
+                    session.layermask);
 
     for (Name doodle : session.selection) {
         if (displayed.count (doodle) == 0)

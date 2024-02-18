@@ -38,7 +38,7 @@ Sprout (CliSession& session,
         toSprout.insert (nextArgument);
     }
     display.Display (toSprout);
-    return Noodle::Sprout (session.connectome, session.doodles, root, &toSprout, session.currentLayer);
+    return Noodle::Sprout (session.connectome, session.doodles, root, toSprout, session.currentLayer);
 }
 
 int
@@ -85,8 +85,8 @@ Project (CliSession& session,
     session.layermask.insert (targetLayer);
     return Project (session.connectome,
                     session.doodles,
-                    &session.selection,
-                    &session.layermask,
+                    session.selection,
+                    session.layermask,
                     targetLayer);
 }
 
@@ -104,8 +104,8 @@ Flatten (CliSession& session,
     session.layermask.insert (targetLayer);
     return Noodle::Flatten (session.connectome,
                             session.doodles,
-                            &session.selection,
-                            &session.layermask,
+                            session.selection,
+                            session.layermask,
                             targetLayer);
 }
 
@@ -125,7 +125,16 @@ Merge (CliSession& session,
             return ERROR::UNKNOWN;
         toMerge = session.selection;
     }
-    return NOT_IMPLEMENTED;
+    display.Hide (toMerge);
+    //todo: cleanup
+    Names toDisplay;
+    toDisplay.insert (target);
+    display.Display (toDisplay);
+    return Noodle::Merge (session.connectome,
+                          session.doodles,
+                          toMerge,
+                          target,
+                          session.workingdirectory);
 }
 
 int
@@ -206,8 +215,8 @@ Transfer (CliSession& session,
         return ERROR::UNKNOWN;
     return Noodle::Transfer (session.connectome,
                              session.doodles,
-                             &toTransfer,
-                             &session.layermask);
+                             toTransfer,
+                             session.layermask);
 }
 
 int
@@ -217,7 +226,7 @@ Dissolve (CliSession& session,
     Names toDissolve = session.GetDoodlesFromStream ();
     return Noodle::Dissolve (session.connectome,
                              session.doodles,
-                             &toDissolve);
+                             toDissolve);
 }
 
 int
@@ -226,8 +235,8 @@ Isolate (CliSession& session,
 {
     Names toIsolate = session.selection;
     return Noodle::Isolate (session.connectome,
-                            &toIsolate,
-                            &session.layermask);
+                            toIsolate,
+                            session.layermask);
 }
 
 int
@@ -237,9 +246,12 @@ Purge (CliSession& session,
     Names toPurge = session.GetDoodlesFromStream ();
     if (toPurge.size () == 0)
         return ERROR::UNKNOWN;
+    for (Name doodle : toPurge) {
+        session.layermask.erase (doodle);
+    }
     return Noodle::Purge (session.connectome,
                           session.doodles,
-                          &toPurge,
+                          toPurge,
                           session.workingdirectory);
 }
 
@@ -252,8 +264,8 @@ Remove (CliSession& session,
         return ERROR::UNKNOWN;
     int result = Noodle::Remove (session.connectome,
                            session.doodles,
-                           &toRemove,
-                           &session.layermask);
+                           toRemove,
+                           session.layermask);
     display.Hide (toRemove);
     return result;
 }

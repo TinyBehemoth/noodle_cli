@@ -4,13 +4,7 @@ project (noodle)
 
 # The noodlecore library
 # ----------------------
-# todo: Consider altering this to build noodlecore as a CMake subdirectory.
-#       Static linking for now.
-add_library(noodlecore STATIC IMPORTED)
-set_target_properties(noodlecore PROPERTIES
-    IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/libraries/libnoodlecore.a"
-    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/includes/noodlecore"
-)
+add_subdirectory("noodlecore/")
 
 # Command Line Interface
 # ----------------------
@@ -36,6 +30,7 @@ add_executable(${PROJECT_NAME} ${CliSourceFiles})
 target_include_directories(${PROJECT_NAME} PRIVATE
     "headers/"
     "headers/core wrappers/"
+    "noodlecore/include/"
 )
 # Requires libreadline-dev to be installed on the system.
 # Otherwise modify this CMakeLists.txt file to include it by some other method.

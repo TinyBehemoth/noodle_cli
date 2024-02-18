@@ -54,7 +54,8 @@ New (CliSession& session, CliDisplay& display)
 }
 
 int
-Rename (CliSession& session, CliDisplay& display)
+Rename (CliSession& session,
+        CliDisplay& display)
 {
     int result;
     Name original, newName;
@@ -63,11 +64,21 @@ Rename (CliSession& session, CliDisplay& display)
     if (!getline (session.userInputStream, newName, ' '))
         return ERROR::UNKNOWN;
     
-    result = Rename    (session.connectome,
-                        session.doodles,
-                        original,
-                        newName,
-                        session.workingdirectory);
+    result = Rename (session.connectome,
+                     session.doodles,
+                     original,
+                     newName,
+                     session.workingdirectory);
+    if (result != ERROR::NONE)
+        return result;
+
+    if (session.layermask.count (original)) {
+        session.layermask.erase (original);
+        session.layermask.insert (newName);
+    }
+    if (session.currentLayer == original)
+        session.currentLayer = newName;
+
     //todo: this is disgusting, probably just overload the display methods.
     Names asList;
     asList.insert (original);
@@ -75,6 +86,7 @@ Rename (CliSession& session, CliDisplay& display)
     asList.clear ();
     asList.insert (newName);
     display.Display (asList);
+
     return result;
 }
 

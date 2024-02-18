@@ -24,11 +24,11 @@ Export (int argc,
 
     CliSession session (fs::current_path ());
 
-    return Noodle::Export (&session.connectome,
-                            &session.doodles,
-                            exporter.type,
-                            session.workingdirectory,
-                            exporter.destinationPath,
-                            &session.selection,
-                            &session.layermask);
+    return Noodle::Export (session.connectome,
+                           session.doodles,
+                           exporter.type,
+                           session.workingdirectory,
+                           exporter.destinationPath,
+                           session.selection,
+                           session.layermask);
 }

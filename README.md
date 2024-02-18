@@ -2,16 +2,15 @@
 
 Noodle is a system for organizing concepts into a multiplex graph.
 Visit [the project site](https://noodle.franciscogg.site) to learn more.
-There is also [a mirror on I2P](http://noodle.franciscogg.i2p) for the privacy inclined.
 
 ## License
 
-This repo is distributed under a [GPL3 license]().
+Refer to the [GPL3 license](LICENSE) at the root of this repo.
 Copyright (C) Francisco J. Garcia-Gonzalez.
 
 ## This Repo
 
-Noodle_cli is a command line interface wrapper for the noodle core written in C++ and built with CMake.
+Noodle_cli is a command line interface wrapper for the noodlecore written in C++ and built with CMake.
 It is meant to demo noodle functionality with a minimal interface.
 
 ## Documentation

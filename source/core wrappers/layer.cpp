@@ -89,8 +89,8 @@ int
 LayerAuto (CliSession& session, CliDisplay& display)
 {
     Names displayed = display.Displayed ();
-    int result = Noodle::LayerAuto (&session.connectome,
-                                    &displayed,
+    int result = Noodle::LayerAuto (session.connectome,
+                                    displayed,
                                     session.layermask);
     return result;
 }
@@ -100,16 +100,16 @@ LayerDissolve (CliSession& session, CliDisplay& display)
 {
     Names toDissolve = session.GetDoodlesFromStream ();
     return Noodle::Dissolve (session.connectome, 
-                            session.doodles,
-                            &toDissolve);
+                             session.doodles,
+                             toDissolve);
 }
 
 int
 LayerFull (CliSession& session, CliDisplay& display)
 {
     Names displayed = display.Displayed ();
-    return Noodle::LayerFull   (&session.connectome,
-                                &displayed,
+    return Noodle::LayerFull   (session.connectome,
+                                displayed,
                                 session.layermask);
 }
 
@@ -131,7 +131,7 @@ Layer  (CliSession& session,
     getline (session.userInputStream, argument, ' ');
     switch (ResolveLayerSubcommand (argument)) {
     case LayerSubcommand::LscAll:
-        return Noodle::LayerAll (&session.connectome, session.layermask);
+        return Noodle::LayerAll (session.connectome, session.layermask);
     case LayerSubcommand::LscAuto:
         return LayerAuto (session, display);
     case LayerSubcommand::LscCurrent:

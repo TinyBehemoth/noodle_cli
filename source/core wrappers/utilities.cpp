@@ -92,8 +92,8 @@ public:
             Names allLayers = session->connectome.LayerList ();
             Noodle::Remove (session->connectome,
                             session->doodles,
-                            &missing,
-                            &allLayers);
+                            missing,
+                            allLayers);
         }
     }
     void HandleModified     ()
@@ -141,11 +141,11 @@ Save (CliSession& session,
 {
     std::cout << "\rSaving Noodle...  ";
 
-    Noodle::WriteNodeCache (&session.doodles,
+    Noodle::WriteNodeCache (session.doodles,
                             session.workingdirectory,
                             session.timeOfLastRefresh);
-    Noodle::WriteConnectome (&session.connectome,
-                            session.workingdirectory);
+    Noodle::WriteConnectome (session.connectome,
+                             session.workingdirectory);
 
     std::cout << "\r                \rNoodle Saved\n";
     display.displayOnNextInteractiveCommand = false;

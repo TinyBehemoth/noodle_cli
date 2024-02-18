@@ -349,7 +349,7 @@ DoodleNewText  (CliSession& session,
     //todo: Use editor in config file.
     //      Only use default editor if there is none configured.
     std::string textEditorCommand = 
-        "editor \"" + session.workingdirectory + session.doodles.at (textDoodle).path + "\"";
+        "nvim \"" + session.workingdirectory + session.doodles.at (textDoodle).path + "\"";
     system(textEditorCommand.c_str());
 
     display.displayOnNextInteractiveCommand = true;

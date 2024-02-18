@@ -1,9 +1,7 @@
 #include "cliSession.h"
 
 CliSession::CliSession (string workingdirectory) : Session (workingdirectory)
-{
-
-}
+{}
 
 void
 CliSession::CleanLayerMask ()
